@@ -1,4 +1,12 @@
+.env
 node_modules/
-.DS_Store
-.eslintcache
-dist/
+*.code-workspace
+locally_execution/**/*
+test/**/_temp/**/*
+build_chain_20*/**/*
+coverage/
+test-report.xml
+.idea/
+.vscode/
+/build
+*.log

@@ -5,7 +5,7 @@ A library for finding YAML source locations after parsing by [js-yaml](https://g
 ## Installation
 
 ```
-npm install js-yaml-source-map js-yaml
+npm install @ginxo/js-yaml-source-map js-yaml
 ```
 
 ## Usage
@@ -43,7 +43,8 @@ const loaded = yaml.load(data, { listener: map.listen() });
 console.log(loaded); // { fruits: [ 'apple', 'banana', 'orange' ], ... }
 
 // different syntaxes supported
-console.log(map.lookup("fruits")); // { line: 4, column: 10, position: 42 }
+// TODO: to be properly documented
+console.log(map.lookup("fruits")); // { starts: {line: 4, column: 10, position: 42}, ends: {line: 4, column: 10, position: 42} }
 console.log(map.lookup("people.0.age")); // { line: 9, column: 8, position: 95 }
 console.log(map.lookup(".people[1].name")); // { line: 10, column: 9, position: 108}
 console.log(map.lookup(["states", "NY", "capital"])); // { line: 16, column: 12, position: 188 }
@@ -52,7 +53,7 @@ console.log(map.lookup(["states", "NY", "capital"])); // { line: 16, column: 12,
 If you're using CommonJS, you'll need to access the `default` key:
 
 ```js
-const SourceMap = require("js-yaml-source-map").default;
+const SourceMap = require("@ginxo/js-yaml-source-map").default;
 
 const map = new SourceMap();
 

@@ -1,27 +1,9 @@
 import type { State } from "js-yaml";
-
-// maps path in object to position information
-interface PathMap {
-  [path: string]: {
-    line: number;
-    position: number;
-    lineStart: number;
-  };
-}
-
-interface Fragment {
-  path: string;
-  line: number;
-  position: number;
-  lineStart: number;
-  children?: Fragment[];
-}
-
-interface SourceLocation {
-  line: number;
-  column: number;
-  position: number;
-}
+import { PathMap } from "@jysm/model/PathMap";
+import { Fragment } from "@jysm/model/Fragment";
+import { SourceLocation } from "@jysm/model/SourceLocation";
+import { Location } from "./model/Location";
+import { pathInfoToLocation } from "./utils";
 
 class SourceMap {
   private _map: PathMap;
@@ -50,8 +32,8 @@ class SourceMap {
     }
     // if the path is already in the map, we don't override it
     if (!this._map[path]) {
-      const { line, position, lineStart } = fragment;
-      this._map[path] = { line, position, lineStart };
+      const { line, position, lineStart, children } = fragment;
+      this._map[path] = { line, position, lineStart, children };
     }
     // if there are children, we recursively resolve them
     if (fragment.children && fragment.children.length > 0) {
@@ -153,10 +135,14 @@ class SourceMap {
             this.resolveNode(fragment, fragment.path);
           } else {
             // otherwise create a new fragment with correct children
-            (newFragment.children as Fragment[]).push({
+            (newFragment.children as Fragment[]).unshift({
               ...fragment,
               path: fragment.path.slice(pathName.length + 1),
             });
+            // (newFragment.children as Fragment[]).push({
+            //   ...fragment,
+            //   path: fragment.path.slice(pathName.length + 1),
+            // });
 
             newFragment.line = fragment.line;
             newFragment.position = fragment.position;
@@ -199,10 +185,14 @@ class SourceMap {
             this.resolveNode(fragment, `${pathName}.${index}`);
           } else {
             // otherwise create a new fragment with correct children
-            (newFragment.children as Fragment[]).push({
+            (newFragment.children as Fragment[]).unshift({
               ...fragment,
               path: index.toString(),
             });
+            // (newFragment.children as Fragment[]).push({
+            //   ...fragment,
+            //   path: index.toString(),
+            // });
 
             newFragment.line = fragment.line;
             newFragment.position = fragment.position;
@@ -258,11 +248,14 @@ class SourceMap {
     if (!pathInfo) {
       return;
     }
-
+    // here it is about to get latest children and get location information
+    const starting: Location = pathInfoToLocation(pathInfo);
+    const ending = pathInfo.children
+      ? pathInfoToLocation(pathInfo.children[pathInfo.children.length - 1], 1)
+      : starting;
     return {
-      line: pathInfo.line + 1,
-      column: pathInfo.position - pathInfo.lineStart + 1,
-      position: pathInfo.position,
+      starting,
+      ending,
     };
   }
 }
