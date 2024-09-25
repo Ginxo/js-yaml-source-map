@@ -1,0 +1,17 @@
+fruits:
+  - apple
+  - banana
+  - orange
+people:
+  - name: Eric
+    age: 26
+  - name: Lily
+    age: 22
+states:
+  CA:
+    name: California
+  NY:
+    name: New York
+    capital: Albany
+  TX:
+    name: Texas

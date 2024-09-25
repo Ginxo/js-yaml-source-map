@@ -1,64 +1,59 @@
 {
-  "name": "js-yaml-source-map",
-  "version": "0.2.2",
+  "name": "@ginxo/js-yaml-source-map",
+  "version": "0.0.1",
   "description": "A sourcemap generator for js-yaml.",
-  "license": "MIT",
-  "author": "Tomi Chen",
-  "type": "module",
-  "files": [
-    "dist/**/*"
-  ],
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
-    }
-  },
-  "types": "./dist/esm/index.d.ts",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tctree333/js-yaml-source-map.git"
-  },
-  "homepage": "https://github.com/tctree333/js-yaml-source-map#readme",
-  "bugs": {
-    "url": "https://github.com/tctree333/js-yaml-source-map/issues"
-  },
-  "scripts": {
-    "clean": "rm -rf dist",
-    "lint": "eslint .",
-    "format": "prettier --check .",
-    "fix": "prettier --write . && eslint --fix .",
-    "build:esm": "tsc -p tsconfig.esm.json",
-    "build:cjs": "tsc -p tsconfig.json",
-    "build": "npm-run-all clean --parallel build:* && ./fixup.sh",
-    "prepare": "husky install",
-    "release": "npm run build; release-it"
+    "url": "git@github.com:Ginxo/js-yaml-source-map"
   },
   "keywords": [
+    "js-yaml",
+    "sourcemap",
+    "lines",
+    "column",
+    "path",
     "yaml",
-    "sourcemaps",
-    "source-map"
+    "starting",
+    "ending"
   ],
+  "author": "Enrique Mingorance Cano <emingora@redhat.com>",
+  "license": "Apache-2.0",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/Ginxo/js-yaml-source-map/issues"
+  },
+  "homepage": "https://github.com/Ginxo/js-yaml-source-map@readme",
+  "scripts": {
+    "test": "jest",
+    "build": "run-p build:*",
+    "dev:build": "tsc && tsc-alias",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
+    "prepare": "husky install"
+  },
   "peerDependencies": {
-    "js-yaml": "^4.0.0"
+    "js-yaml": "^4.1.0"
   },
+  "files": [
+    "dist/index.js"
+  ],
   "devDependencies": {
-    "@types/js-yaml": "^4.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.16.0",
-    "@typescript-eslint/parser": "^5.16.0",
-    "eslint": "^8.11.0",
-    "eslint-config-prettier": "^8.5.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^12.3.7",
+    "@types/fs-extra": "^11.0.4",
+    "@types/jest": "^29.5.13",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "@vercel/ncc": "^0.38.2",
+    "eslint": "^9.11.1",
+    "husky": "^9.1.6",
+    "jest": "^29.7.0",
+    "nock": "^13.5.5",
     "npm-run-all": "^4.1.5",
-    "prettier": "2.6.0",
-    "release-it": "^14.13.1",
-    "typescript": "^4.6.3"
-  },
-  "lint-staged": {
-    "*.{js,ts,json,yaml,yml,md}": "prettier --write",
-    "*.{js,ts}": "eslint --cache --fix"
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.6.2"
   }
 }
